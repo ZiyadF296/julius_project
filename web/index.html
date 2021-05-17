@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="English Julius Project">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="julius_project">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>julius_project</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {background-color: #644305d5;}
+    .loading{
+      display:inline-block;
+      color: #ffffff;
+      width:2rem;
+      align-items: center;
+      height:2rem;
+      vertical-align:text-bottom;
+      border:.20em solid currentColor;
+      border-right-color:transparent;
+      border-radius:50%;
+      -webkit-animation:spinner-border .75s linear infinite;
+      animation:spinner-border .75s linear infinite
+    }
+    .loader{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+
+  @-webkit-keyframes spinner-border{
+  to{
+    -webkit-transform:rotate(360deg);
+    transform:rotate(360deg)
+  }
+}
+@keyframes spinner-border{
+  to{
+    -webkit-transform:rotate(360deg);
+    transform:rotate(360deg)
+  }
+}
+</style>
+</head>
+<body>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyDOp0kql-KDFOhf_0f-jcS3d9OYFxhHs3I",
+      authDomain: "julius-project-dcc9f.firebaseapp.com",
+      projectId: "julius-project-dcc9f",
+      storageBucket: "julius-project-dcc9f.appspot.com",
+      messagingSenderId: "143202911822",
+      appId: "1:143202911822:web:c94f48902b085cbb5de51f"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <div class="spinner-border text-success loading loader"></div>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+</html>
