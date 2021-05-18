@@ -10,9 +10,7 @@ class LearnHowToPlay extends StatelessWidget {
         title: Text('Learn To Play'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
     );

@@ -1,9 +1,34 @@
 class Question {
+  /// The title of the question
   final String title;
-  final String description;
-  final String answer;
-  final List<String> options;
-  final int value;
 
-  Question(this.title, this.description, this.answer, this.options, this.value);
+  /// Explain the question in details
+  /// so it can be understood better
+  /// in case the title wasn't clear
+  /// enough
+  final String description;
+
+  /// The answer of this question.
+  /// Note: The answer must corrospond
+  /// to the same piece of text from
+  /// from the question list options.
+  final String answer;
+
+  /// The list of options for this question
+  /// in a text format.
+  final List<String> options;
+
+  /// The amount of points this question
+  /// is valued at. Easy would typically
+  /// be around 200 points and hard around
+  /// 3000.
+  final double value;
+
+  Question({
+    required this.title,
+    required this.description,
+    required this.answer,
+    required this.options,
+    required this.value,
+  });
 }

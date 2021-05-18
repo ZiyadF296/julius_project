@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:julius_project/components/main_button.dart';
 import 'package:julius_project/get_started.dart';
 import 'package:julius_project/leadership_board.dart';
-import 'package:julius_project/learn_how_to_play.dart';
+import 'package:julius_project/learn_how_to_play.dart'; 
 import 'package:julius_project/play_game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,9 +32,9 @@ class JuliusMain extends StatelessWidget {
       routes: {
         HomePage.id: (context) => HomePage(),
         LearnHowToPlay.id: (context) => LearnHowToPlay(),
+        LeaderShipBoard.id: (context) => LeaderShipBoard(),
         GetStarted.id: (context) => GetStarted(),
         PlayGame.id: (context) => PlayGame(),
-        LeaderShipBoard.id: (context) => LeaderShipBoard(),
       },
     );
   }
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('image/welcome_bg.jpg'),
+            image: AssetImage('assets/images/welcome_bg.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.srgbToLinearGamma(),
           ),
@@ -83,19 +83,16 @@ class _HomePageState extends State<HomePage> {
                 // ),
                 Text('Title of Game', style: TextStyle(fontSize: 25)),
                 const SizedBox(height: 15),
-                Image.asset('image/julius_cartoon.png', height: 200),
+                Image.asset('assets/images/julius_cartoon.png', height: 200),
                 const SizedBox(height: 15),
                 MainButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, LearnHowToPlay.id);
-                  },
+                  onPressed: () =>
+                      Navigator.pushNamed(context, LearnHowToPlay.id),
                   text: 'Learn How To Play',
                 ),
                 const SizedBox(height: 15),
                 MainButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, GetStarted.id);
-                  },
+                  onPressed: () => Navigator.pushNamed(context, GetStarted.id),
                   text: 'Get Started',
                 ),
               ],

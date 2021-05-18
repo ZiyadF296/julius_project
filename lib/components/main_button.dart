@@ -6,11 +6,12 @@ class MainButton extends StatelessWidget {
   final bool loading;
   final double? width;
 
-  MainButton(
-      {required this.onPressed,
-      required this.text,
-      this.loading = false,
-      this.width});
+  MainButton({
+    required this.onPressed,
+    required this.text,
+    this.loading = false,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {

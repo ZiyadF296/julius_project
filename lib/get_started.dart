@@ -214,6 +214,9 @@ class _GetStartedState extends State<GetStarted> {
       ),
       body: Center(
         child: _loadingForm
+            // Shows a load page if the form is still loading
+            // the user data. Typically would take long if the
+            // device is slow to perform local read/write actions.
             ? CircularProgressIndicator()
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
