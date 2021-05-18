@@ -221,84 +221,60 @@ class _PlayGameState extends State<PlayGame> {
                                                 myquestions[_questionIndex]
                                                     .answer) {
                                               // Answered Correctly
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  duration: const Duration(
+                                                      milliseconds: 200),
+                                                  backgroundColor: Colors.brown,
+                                                  content: Row(
+                                                    children: [
+                                                      Icon(Icons.check,
+                                                          color: Colors.green),
+                                                      const SizedBox(width: 8),
+                                                      Text(
+                                                        'Yup! That\'s right!',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
                                               _nextQuestion(
                                                   true,
                                                   myquestions[_questionIndex]
                                                       .value);
-                                              showDialog(
-                                                context: context,
-                                                builder: (_) => Dialog(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text('Yup, Correct',
-                                                            style: TextStyle(
-                                                                fontSize: 20)),
-                                                        const SizedBox(
-                                                            height: 20),
-                                                        Icon(Icons.check,
-                                                            color: Colors.green,
-                                                            size: 30),
-                                                        const SizedBox(
-                                                            height: 20),
-                                                        MainButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                          width: 100,
-                                                          text: 'OK',
+                                            } else {
+                                              // False answer
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  duration: const Duration(
+                                                      milliseconds: 200),
+                                                  backgroundColor: Colors.brown,
+                                                  content: Row(
+                                                    children: [
+                                                      Icon(Icons.close,
+                                                          color: Colors.red),
+                                                      const SizedBox(width: 8),
+                                                      Text(
+                                                        'Nope! That was the wrong answer!',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               );
-                                            } else {
-                                              // False answer
                                               _nextQuestion(
                                                 false,
                                                 myquestions[_questionIndex]
                                                         .value
                                                         .toDouble() /
                                                     2,
-                                              );
-                                              showDialog(
-                                                context: context,
-                                                builder: (_) => Dialog(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text('Oops. Wrong!',
-                                                            style: TextStyle(
-                                                                fontSize: 20)),
-                                                        const SizedBox(
-                                                            height: 20),
-                                                        Icon(Icons.close,
-                                                            color: Colors.red,
-                                                            size: 30),
-                                                        const SizedBox(
-                                                            height: 20),
-                                                        MainButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                          width: 100,
-                                                          text: 'OK',
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
                                               );
                                             }
                                           }, e),
@@ -315,9 +291,13 @@ class _PlayGameState extends State<PlayGame> {
                     child: Row(
                       children: _answerStatus.map((e) {
                         if (e) {
-                          return Icon(Icons.check, color: Colors.green);
+                          return Tooltip(
+                              message: 'Correct',
+                              child: Icon(Icons.check, color: Colors.green));
                         } else {
-                          return Icon(Icons.close, color: Colors.red);
+                          return Tooltip(
+                              message: 'Wrong',
+                              child: Icon(Icons.close, color: Colors.red));
                         }
                       }).toList(),
                     ),

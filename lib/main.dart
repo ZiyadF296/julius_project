@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:julius_project/components/main_button.dart';
 import 'package:julius_project/get_started.dart';
 import 'package:julius_project/leadership_board.dart';
-import 'package:julius_project/learn_how_to_play.dart'; 
+import 'package:julius_project/learn_how_to_play.dart';
 import 'package:julius_project/play_game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Center(
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             decoration: BoxDecoration(
               color: Color(0xff4A3126),
               borderRadius: BorderRadius.circular(15),
@@ -70,18 +70,8 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                // Tooltip(
-                //   message: 'Clear cache',
-                //   child: FlatButton(
-                //     onPressed: () async {
-                //       late SharedPreferences _pref;
-                //       _pref = await SharedPreferences.getInstance();
-                //       _pref.clear();
-                //     },
-                //     child: Icon(Icons.close),
-                //   ),
-                // ),
-                Text('Title of Game', style: TextStyle(fontSize: 25)),
+                Text('It\'s me, Julius Caesar!',
+                    style: TextStyle(fontSize: 25)),
                 const SizedBox(height: 15),
                 Image.asset('assets/images/julius_cartoon.png', height: 200),
                 const SizedBox(height: 15),
