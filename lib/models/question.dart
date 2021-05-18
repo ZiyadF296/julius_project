@@ -2,12 +2,6 @@ class Question {
   /// The title of the question
   final String title;
 
-  /// Explain the question in details
-  /// so it can be understood better
-  /// in case the title wasn't clear
-  /// enough
-  final String description;
-
   /// The answer of this question.
   /// Note: The answer must corrospond
   /// to the same piece of text from
@@ -26,7 +20,6 @@ class Question {
 
   Question({
     required this.title,
-    required this.description,
     required this.answer,
     required this.options,
     required this.value,

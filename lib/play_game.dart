@@ -197,15 +197,7 @@ class _PlayGameState extends State<PlayGame> {
                                   style: TextStyle(fontSize: 30),
                                   textAlign: TextAlign.center,
                                 ),
-                                const SizedBox(height: 20),
-                                if (myquestions[_questionIndex].description !=
-                                    '')
-                                  Text(
-                                    myquestions[_questionIndex].description,
-                                    style: TextStyle(fontSize: 18),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 40),
                                 SizedBox(
                                   width: 600,
                                   child: Center(
