@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:julius_project/components/main_button.dart';
+import 'package:julius_project/main_button.dart';
 import 'package:julius_project/get_started.dart';
 import 'package:julius_project/leadership_board.dart';
 import 'package:julius_project/learn_how_to_play.dart';

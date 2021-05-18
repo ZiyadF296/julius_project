@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:julius_project/components/main_button.dart';
+import 'package:julius_project/main_button.dart';
 import 'package:julius_project/leadership_board.dart';
 import 'package:julius_project/main.dart';
 import 'package:julius_project/models/question_list.dart';
@@ -187,103 +187,112 @@ class _PlayGameState extends State<PlayGame> {
                           ),
                         )
                       : Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                myquestions[_questionIndex].title,
-                                style: TextStyle(fontSize: 30),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 20),
-                              if (myquestions[_questionIndex].description != '')
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Text(
-                                  myquestions[_questionIndex].description,
-                                  style: TextStyle(fontSize: 18),
+                                  myquestions[_questionIndex].title,
+                                  style: TextStyle(fontSize: 30),
                                   textAlign: TextAlign.center,
                                 ),
-                              const SizedBox(height: 20),
-                              SizedBox(
-                                width: 600,
-                                child: Center(
-                                  child: Wrap(
-                                    spacing: 15,
-                                    runSpacing: 15,
-                                    alignment: WrapAlignment.center,
-                                    runAlignment: WrapAlignment.center,
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    children: myquestions[_questionIndex]
-                                        .options
-                                        .map(
-                                          (e) => _formOptionButtons(() {
-                                            if (e ==
-                                                myquestions[_questionIndex]
-                                                    .answer) {
-                                              // Answered Correctly
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  duration: const Duration(
-                                                      milliseconds: 200),
-                                                  backgroundColor: Colors.brown,
-                                                  content: Row(
-                                                    children: [
-                                                      Icon(Icons.check,
-                                                          color: Colors.green),
-                                                      const SizedBox(width: 8),
-                                                      Text(
-                                                        'Yup! That\'s right!',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                              _nextQuestion(
-                                                  true,
+                                const SizedBox(height: 20),
+                                if (myquestions[_questionIndex].description !=
+                                    '')
+                                  Text(
+                                    myquestions[_questionIndex].description,
+                                    style: TextStyle(fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: 600,
+                                  child: Center(
+                                    child: Wrap(
+                                      spacing: 15,
+                                      runSpacing: 15,
+                                      alignment: WrapAlignment.center,
+                                      runAlignment: WrapAlignment.center,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: myquestions[_questionIndex]
+                                          .options
+                                          .map(
+                                            (e) => _formOptionButtons(() {
+                                              if (e ==
                                                   myquestions[_questionIndex]
-                                                      .value);
-                                            } else {
-                                              // False answer
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  duration: const Duration(
-                                                      milliseconds: 200),
-                                                  backgroundColor: Colors.brown,
-                                                  content: Row(
-                                                    children: [
-                                                      Icon(Icons.close,
-                                                          color: Colors.red),
-                                                      const SizedBox(width: 8),
-                                                      Text(
-                                                        'Nope! That was the wrong answer!',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
+                                                      .answer) {
+                                                // Answered Correctly
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                    backgroundColor:
+                                                        Colors.brown,
+                                                    content: Row(
+                                                      children: [
+                                                        Icon(Icons.check,
+                                                            color:
+                                                                Colors.green),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        Text(
+                                                          'Yup! That\'s right!',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              );
-                                              _nextQuestion(
-                                                false,
-                                                myquestions[_questionIndex]
-                                                        .value
-                                                        .toDouble() /
-                                                    2,
-                                              );
-                                            }
-                                          }, e),
-                                        )
-                                        .toList(),
+                                                );
+                                                _nextQuestion(
+                                                    true,
+                                                    myquestions[_questionIndex]
+                                                        .value);
+                                              } else {
+                                                // False answer
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                    backgroundColor:
+                                                        Colors.brown,
+                                                    content: Row(
+                                                      children: [
+                                                        Icon(Icons.close,
+                                                            color: Colors.red),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        Text(
+                                                          'Nope! That was the wrong answer!',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                                _nextQuestion(
+                                                  false,
+                                                  myquestions[_questionIndex]
+                                                          .value
+                                                          .toDouble() /
+                                                      2,
+                                                );
+                                              }
+                                            }, e),
+                                          )
+                                          .toList(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                   SingleChildScrollView(
@@ -348,14 +357,13 @@ Widget _formOptionButtons(Function onPressed, String message) {
     disabledElevation: 0,
     highlightElevation: 0,
     onPressed: onPressed as Function(),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
     focusColor: Colors.black26,
     hoverColor: Colors.black26,
     splashColor: Colors.black26,
     highlightColor: Colors.black26,
     color: Colors.black26,
-    child: Text(
-      message,
-      textAlign: TextAlign.center,
-    ),
+    child: Text(message, textAlign: TextAlign.center),
   );
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:julius_project/components/main_button.dart';
+import 'package:julius_project/main_button.dart';
 import 'package:julius_project/main.dart';
 import 'package:julius_project/play_game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
