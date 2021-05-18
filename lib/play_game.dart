@@ -55,11 +55,23 @@ class _PlayGameState extends State<PlayGame> {
             .doc(_pref.getString('user_nickname'))
             .get();
         if (_result.exists) {
+          try {
+            DocumentSnapshot<dynamic> _answerResult = await FirebaseFirestore
+                .instance
+                .collection('users')
+                .doc(_name)
+                .get();
+            _answerStatus.clear();
+            // print(_answerResult);
+            List<dynamic>? _finalAnswers =
+                _answerResult.data()['answers'] as List<dynamic>;
+            for (var i = 0; _finalAnswers.length > i; i++) {
+              _answerStatus.add(_finalAnswers[i]);
+            }
+          } catch (_) {}
           setState(() => _loadingForm = false);
         } else {
           _pref.clear();
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomePage.id, (route) => false);
           showDialog(
             context: context,
             builder: (_) => Dialog(
@@ -68,14 +80,15 @@ class _PlayGameState extends State<PlayGame> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('', style: TextStyle(fontSize: 20)),
+                    Text('Nope!', style: TextStyle(fontSize: 20)),
                     const SizedBox(height: 20),
                     Text(
                       'Looks like there already is a user with that name! Try again with another one.',
                     ),
                     const SizedBox(height: 20),
                     MainButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                          context, HomePage.id, (route) => false),
                       width: 100,
                       text: 'OK',
                     ),
@@ -100,11 +113,11 @@ class _PlayGameState extends State<PlayGame> {
       await _pref.setInt('question_index', 0);
       if (isCorrect) {
         FirebaseFirestore.instance.collection('users').doc(_name).update({
-          'points': FieldValue.increment(points),
+          'score': FieldValue.increment(points),
         });
       } else {
         FirebaseFirestore.instance.collection('users').doc(_name).update({
-          'points': FieldValue.increment(-points),
+          'score': FieldValue.increment(-points),
         });
       }
       await FirebaseFirestore.instance
@@ -117,14 +130,16 @@ class _PlayGameState extends State<PlayGame> {
       _pref = await SharedPreferences.getInstance();
       await _pref.setInt('question_index', _questionIndex + 1);
       if (isCorrect) {
+        _answerStatus.add(true);
         FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(points),
-          'question_$_questionIndex': [_questionIndex, true],
+          'answers': _answerStatus,
         });
       } else {
+        _answerStatus.add(false);
         FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(-points),
-          'answers': [false],
+          'answers': _answerStatus,
         });
       }
       await FirebaseFirestore.instance
@@ -181,11 +196,12 @@ class _PlayGameState extends State<PlayGame> {
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 20),
-                              Text(
-                                myquestions[_questionIndex].description,
-                                style: TextStyle(fontSize: 18),
-                                textAlign: TextAlign.center,
-                              ),
+                              if (myquestions[_questionIndex].description != '')
+                                Text(
+                                  myquestions[_questionIndex].description,
+                                  style: TextStyle(fontSize: 18),
+                                  textAlign: TextAlign.center,
+                                ),
                               const SizedBox(height: 20),
                               SizedBox(
                                 width: 600,
@@ -193,6 +209,10 @@ class _PlayGameState extends State<PlayGame> {
                                   child: Wrap(
                                     spacing: 15,
                                     runSpacing: 15,
+                                    alignment: WrapAlignment.center,
+                                    runAlignment: WrapAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: myquestions[_questionIndex]
                                         .options
                                         .map(
