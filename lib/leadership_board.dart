@@ -30,7 +30,7 @@ class _LeaderShipBoardState extends State<LeaderShipBoard> {
       QuerySnapshot<dynamic>? _result = await FirebaseFirestore.instance
           .collection('users')
           .where('completed_game', isEqualTo: true)
-          .orderBy('score')
+          .orderBy('score', descending: true)
           .limit(25)
           .get();
       for (var i = 0; _result.docs.length > i; i++) {
@@ -163,7 +163,7 @@ Widget _topBoardWidget(LeaderPosition position, String name, List totalCorrect,
               Text(name, style: TextStyle(fontSize: 16)),
               const SizedBox(height: 5),
               Text(
-                '${totalCorrect.where((e) => true).length} / ${myquestions.length} Correct',
+                '${totalCorrect.where((e) => e == true).length} / ${myquestions.length} Correct',
                 style: TextStyle(color: Colors.brown[100]),
               ),
             ],
