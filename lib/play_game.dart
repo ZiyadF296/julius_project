@@ -23,6 +23,8 @@ class _PlayGameState extends State<PlayGame> {
   bool _loadingForm = true;
   String? _name;
 
+  List<bool> _answerStatus = [];
+
   Future<void> _loadUser() async {
     if (!widget.valid) {
       Navigator.pushNamedAndRemoveUntil(context, HomePage.id, (route) => false);
@@ -117,10 +119,12 @@ class _PlayGameState extends State<PlayGame> {
       if (isCorrect) {
         FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(points),
+          'question_$_questionIndex': [_questionIndex, true],
         });
       } else {
         FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(-points),
+          'answers': [false],
         });
       }
       await FirebaseFirestore.instance
@@ -201,6 +205,39 @@ class _PlayGameState extends State<PlayGame> {
                                                   true,
                                                   myquestions[_questionIndex]
                                                       .value);
+                                              showDialog(
+                                                context: context,
+                                                builder: (_) => Dialog(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text('Yup, Correct',
+                                                            style: TextStyle(
+                                                                fontSize: 20)),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        Icon(Icons.check,
+                                                            color: Colors.green,
+                                                            size: 30),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        MainButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          width: 100,
+                                                          text: 'OK',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
                                             } else {
                                               // False answer
                                               _nextQuestion(
@@ -209,6 +246,39 @@ class _PlayGameState extends State<PlayGame> {
                                                         .value
                                                         .toDouble() /
                                                     2,
+                                              );
+                                              showDialog(
+                                                context: context,
+                                                builder: (_) => Dialog(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text('Oops. Wrong!',
+                                                            style: TextStyle(
+                                                                fontSize: 20)),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        Icon(Icons.close,
+                                                            color: Colors.red,
+                                                            size: 30),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        MainButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          width: 100,
+                                                          text: 'OK',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
                                               );
                                             }
                                           }, e),
@@ -220,6 +290,18 @@ class _PlayGameState extends State<PlayGame> {
                             ],
                           ),
                         ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: _answerStatus.map((e) {
+                        if (e) {
+                          return Icon(Icons.check, color: Colors.green);
+                        } else {
+                          return Icon(Icons.close, color: Colors.red);
+                        }
+                      }).toList(),
+                    ),
+                  ),
                   // Bottom Footer User Status
                   StreamBuilder(
                     stream: FirebaseFirestore.instance
