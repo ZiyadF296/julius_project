@@ -27,7 +27,8 @@ class _PlayGameState extends State<PlayGame> {
 
   Future<void> _loadUser() async {
     if (!widget.valid) {
-      await Navigator.pushNamedAndRemoveUntil(context, HomePage.id, (route) => false);
+      await Navigator.pushNamedAndRemoveUntil(
+          context, HomePage.id, (route) => false);
     } else {
       _pref = await SharedPreferences.getInstance();
       if (_pref.containsKey('user_nickname')) {
@@ -312,21 +313,30 @@ class _PlayGameState extends State<PlayGame> {
                     builder: (context,
                         AsyncSnapshot<DocumentSnapshot<dynamic>> snapshot) {
                       if (snapshot.hasData) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Score: ' +
-                                      snapshot.data!.data()['score'].toString(),
+                        try {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Score: ' +
+                                        snapshot.data!
+                                            .data()['score']
+                                            .toString(),
+                                  ),
                                 ),
-                              ),
-                              Text(snapshot.data!.data()['name']),
-                            ],
-                          ),
-                        );
+                                Text(snapshot.data!.data()['name']),
+                              ],
+                            ),
+                          );
+                        } catch (_) {
+                          return const SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator());
+                        }
                       } else {
                         return const LinearProgressIndicator();
                       }
