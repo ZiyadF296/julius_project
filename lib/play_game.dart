@@ -23,7 +23,7 @@ class _PlayGameState extends State<PlayGame> {
   bool _loadingForm = true;
   String? _name;
 
-  final List<bool> _answerStatus = [];
+  List<bool> _answerStatus = [];
 
   Future<void> _loadUser() async {
     if (!widget.valid) {
@@ -162,6 +162,8 @@ class _PlayGameState extends State<PlayGame> {
 
   @override
   void dispose() {
+    _questionIndex = 0;
+    _answerStatus = [];
     _loadingForm = true;
     super.dispose();
   }
@@ -193,6 +195,10 @@ class _PlayGameState extends State<PlayGame> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                Image.network(
+                                    myquestions[_questionIndex].imgUrl,
+                                    height: 200),
+                                const SizedBox(height: 40),
                                 Text(
                                   myquestions[_questionIndex].title,
                                   style: const TextStyle(fontSize: 30),
@@ -332,10 +338,14 @@ class _PlayGameState extends State<PlayGame> {
                             ),
                           );
                         } catch (_) {
-                          return const SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator());
+                          return const Padding(
+                            padding: EdgeInsets.all(15),
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          );
                         }
                       } else {
                         return const LinearProgressIndicator();
