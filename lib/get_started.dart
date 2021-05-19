@@ -30,9 +30,9 @@ class _GetStartedState extends State<GetStarted> {
     // then it will check whether this user has completed
     // the game or not.
     if (_pref.containsKey('completed_game')) {
-      _pref.clear();
+      await _pref.clear();
       setState(() => _loadingForm = false);
-      showDialog(
+      await showDialog(
         context: context,
         builder: (_) => Dialog(
           child: Padding(
@@ -40,9 +40,9 @@ class _GetStartedState extends State<GetStarted> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Welcome Back!', style: TextStyle(fontSize: 20)),
+                const Text('Welcome Back!', style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   'Great to have you here again! Let\'s play again!',
                 ),
                 const SizedBox(height: 20),
@@ -57,7 +57,7 @@ class _GetStartedState extends State<GetStarted> {
         ),
       );
     } else if (_pref.containsKey('user_nickname')) {
-      Navigator.pushReplacement(
+      await Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => PlayGame(valid: true)));
     } else {
       setState(() => _loadingForm = false);
@@ -76,7 +76,7 @@ class _GetStartedState extends State<GetStarted> {
         'score': 0,
       });
       setState(() => _loading = false);
-      Navigator.pushReplacement(
+      await Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => PlayGame(valid: true)));
     }
     // In the case it fails to add the user, it will show a
@@ -84,7 +84,7 @@ class _GetStartedState extends State<GetStarted> {
     // to retry.
     catch (_) {
       setState(() => _loading = false);
-      showDialog(
+      await showDialog(
         context: context,
         builder: (_) => Dialog(
           child: Padding(
@@ -92,9 +92,10 @@ class _GetStartedState extends State<GetStarted> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Couldn\'t Add You!', style: TextStyle(fontSize: 20)),
+                const Text('Couldn\'t Add You!',
+                    style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   'For some reason, we couldn\'t add you as a user. How about trying again later?',
                 ),
                 const SizedBox(height: 20),
@@ -153,9 +154,9 @@ class _GetStartedState extends State<GetStarted> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Well...', style: TextStyle(fontSize: 20)),
+                  const Text('Well...', style: TextStyle(fontSize: 20)),
                   const SizedBox(height: 20),
-                  Text(
+                  const Text(
                     'Looks like there already is a user with that name! Try again with another one.',
                   ),
                   const SizedBox(height: 20),
@@ -204,12 +205,10 @@ class _GetStartedState extends State<GetStarted> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Get Started'),
+        title: const Text('Get Started'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(Icons.arrow_back_ios_rounded),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Center(
@@ -217,7 +216,7 @@ class _GetStartedState extends State<GetStarted> {
             // Shows a load page if the form is still loading
             // the user data. Typically would take long if the
             // device is slow to perform local read/write actions.
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: SizedBox(
@@ -227,13 +226,15 @@ class _GetStartedState extends State<GetStarted> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Let\'s Play!', style: TextStyle(fontSize: 25)),
+                        const Text('Let\'s Play!',
+                            style: TextStyle(fontSize: 25)),
                         const SizedBox(height: 20),
                         // Asks the user for their name that they want
                         // to be called. Name can't be less than 3 characters
                         // and not more than 25 characters.
                         TextFormField(
-                          decoration: InputDecoration(hintText: 'Nickname'),
+                          decoration:
+                              const InputDecoration(hintText: 'Nickname'),
                           onChanged: (val) => _name = val,
                           validator: (val) => val == null
                               ? 'Please enter your nickname'

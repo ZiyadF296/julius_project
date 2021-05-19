@@ -26,7 +26,7 @@ class JuliusMain extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.brown[800],
-        appBarTheme: AppBarTheme(color: Colors.brown),
+        appBarTheme: const AppBarTheme(color: Colors.brown),
       ),
       initialRoute: HomePage.id,
       routes: {
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/welcome_bg.jpg'),
             fit: BoxFit.cover,
@@ -63,14 +63,14 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             decoration: BoxDecoration(
-              color: Color(0xff4A3126),
+              color: const Color(0xff4A3126),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('It\'s me, Julius Caesar!',
+                const Text('It\'s me, Julius Caesar!',
                     style: TextStyle(fontSize: 25)),
                 const SizedBox(height: 15),
                 Image.asset('assets/images/julius_cartoon.png', height: 200),

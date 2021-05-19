@@ -27,7 +27,7 @@ class MainButton extends StatelessWidget {
       highlightColor: Colors.black12,
       splashColor: Colors.black12,
       child: loading
-          ? SizedBox(
+          ? const SizedBox(
               height: 15,
               width: 15,
               child: CircularProgressIndicator(strokeWidth: 2),

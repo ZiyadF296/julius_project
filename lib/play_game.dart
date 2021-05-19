@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:julius_project/main_button.dart';
 import 'package:julius_project/leadership_board.dart';
 import 'package:julius_project/main.dart';
-import 'package:julius_project/models/question_list.dart';
+import 'package:julius_project/question.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayGame extends StatefulWidget {
@@ -23,11 +23,11 @@ class _PlayGameState extends State<PlayGame> {
   bool _loadingForm = true;
   String? _name;
 
-  List<bool> _answerStatus = [];
+  final List<bool> _answerStatus = [];
 
   Future<void> _loadUser() async {
     if (!widget.valid) {
-      Navigator.pushNamedAndRemoveUntil(context, HomePage.id, (route) => false);
+      await Navigator.pushNamedAndRemoveUntil(context, HomePage.id, (route) => false);
     } else {
       _pref = await SharedPreferences.getInstance();
       if (_pref.containsKey('user_nickname')) {
@@ -62,7 +62,6 @@ class _PlayGameState extends State<PlayGame> {
                 .doc(_name)
                 .get();
             _answerStatus.clear();
-            // print(_answerResult);
             List<dynamic>? _finalAnswers =
                 _answerResult.data()['answers'] as List<dynamic>;
             for (var i = 0; _finalAnswers.length > i; i++) {
@@ -71,8 +70,8 @@ class _PlayGameState extends State<PlayGame> {
           } catch (_) {}
           setState(() => _loadingForm = false);
         } else {
-          _pref.clear();
-          showDialog(
+          await _pref.clear();
+          await showDialog(
             context: context,
             builder: (_) => Dialog(
               child: Padding(
@@ -80,9 +79,9 @@ class _PlayGameState extends State<PlayGame> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Nope!', style: TextStyle(fontSize: 20)),
+                    const Text('Nope!', style: TextStyle(fontSize: 20)),
                     const SizedBox(height: 20),
-                    Text(
+                    const Text(
                       'Looks like there already is a user with that name! Try again with another one.',
                     ),
                     const SizedBox(height: 20),
@@ -99,7 +98,7 @@ class _PlayGameState extends State<PlayGame> {
           );
         }
       } else {
-        Navigator.pushReplacementNamed(context, HomePage.id);
+        await Navigator.pushReplacementNamed(context, HomePage.id);
       }
     }
   }
@@ -112,11 +111,11 @@ class _PlayGameState extends State<PlayGame> {
       await _pref.setBool('completed_game', true);
       await _pref.setInt('question_index', 0);
       if (isCorrect) {
-        FirebaseFirestore.instance.collection('users').doc(_name).update({
+        await FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(points),
         });
       } else {
-        FirebaseFirestore.instance.collection('users').doc(_name).update({
+        await FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(-points),
         });
       }
@@ -124,24 +123,25 @@ class _PlayGameState extends State<PlayGame> {
           .collection('users')
           .doc(_name)
           .update({'completed_game': true});
-      Navigator.pushReplacementNamed(context, LeaderShipBoard.id);
+      await Navigator.pushReplacementNamed(context, LeaderShipBoard.id);
     } else {
       setState(() => _loading = true);
       _pref = await SharedPreferences.getInstance();
       await _pref.setInt('question_index', _questionIndex + 1);
       if (isCorrect) {
         _answerStatus.add(true);
-        FirebaseFirestore.instance.collection('users').doc(_name).update({
+        await FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(points),
           'answers': _answerStatus,
         });
       } else {
         _answerStatus.add(false);
-        FirebaseFirestore.instance.collection('users').doc(_name).update({
+        await FirebaseFirestore.instance.collection('users').doc(_name).update({
           'score': FieldValue.increment(-points),
           'answers': _answerStatus,
         });
       }
+
       await FirebaseFirestore.instance
           .collection('users')
           .doc(_name)
@@ -170,14 +170,14 @@ class _PlayGameState extends State<PlayGame> {
     return Scaffold(
       body: Center(
         child: _loadingForm
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Column(
                 children: [
                   const SizedBox(height: 15),
                   Text('${_questionIndex + 1} / ${myquestions.length}'),
                   // Form
                   _loading
-                      ? Expanded(
+                      ? const Expanded(
                           child: Center(
                             child: SizedBox(
                               width: 30,
@@ -194,7 +194,7 @@ class _PlayGameState extends State<PlayGame> {
                               children: [
                                 Text(
                                   myquestions[_questionIndex].title,
-                                  style: TextStyle(fontSize: 30),
+                                  style: const TextStyle(fontSize: 30),
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 40),
@@ -225,12 +225,12 @@ class _PlayGameState extends State<PlayGame> {
                                                         Colors.brown,
                                                     content: Row(
                                                       children: [
-                                                        Icon(Icons.check,
+                                                        const Icon(Icons.check,
                                                             color:
                                                                 Colors.green),
                                                         const SizedBox(
                                                             width: 8),
-                                                        Text(
+                                                        const Text(
                                                           'Yup! That\'s right!',
                                                           style: TextStyle(
                                                             color: Colors.white,
@@ -255,11 +255,11 @@ class _PlayGameState extends State<PlayGame> {
                                                         Colors.brown,
                                                     content: Row(
                                                       children: [
-                                                        Icon(Icons.close,
+                                                        const Icon(Icons.close,
                                                             color: Colors.red),
                                                         const SizedBox(
                                                             width: 8),
-                                                        Text(
+                                                        const Text(
                                                           'Nope! That was the wrong answer!',
                                                           style: TextStyle(
                                                             color: Colors.white,
@@ -292,11 +292,11 @@ class _PlayGameState extends State<PlayGame> {
                     child: Row(
                       children: _answerStatus.map((e) {
                         if (e) {
-                          return Tooltip(
+                          return const Tooltip(
                               message: 'Correct',
                               child: Icon(Icons.check, color: Colors.green));
                         } else {
-                          return Tooltip(
+                          return const Tooltip(
                               message: 'Wrong',
                               child: Icon(Icons.close, color: Colors.red));
                         }
@@ -328,7 +328,7 @@ class _PlayGameState extends State<PlayGame> {
                           ),
                         );
                       } else {
-                        return LinearProgressIndicator();
+                        return const LinearProgressIndicator();
                       }
                     },
                   ),

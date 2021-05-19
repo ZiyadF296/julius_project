@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:julius_project/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:julius_project/models/question_list.dart';
+import 'package:julius_project/question.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LeaderShipBoard extends StatefulWidget {
@@ -77,7 +77,8 @@ class _LeaderShipBoardState extends State<LeaderShipBoard> {
       // User didn't play game or session period
       // has ended.
       await Future.delayed(const Duration(milliseconds: 200));
-      Navigator.pushNamedAndRemoveUntil(context, HomePage.id, (route) => false);
+      await Navigator.pushNamedAndRemoveUntil(
+          context, HomePage.id, (route) => false);
     }
   }
 
@@ -97,20 +98,18 @@ class _LeaderShipBoardState extends State<LeaderShipBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Leadership Board'),
+        title: const Text('Leadership Board'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.close_rounded),
+            icon: const Icon(Icons.close_rounded),
             onPressed: () => Navigator.pushNamedAndRemoveUntil(
                 context, HomePage.id, (route) => false),
           ),
         ],
       ),
       body: _formLoading
-          ? Center(
-              child: CircularProgressIndicator(strokeWidth: 3),
-            )
+          ? const Center(child: CircularProgressIndicator(strokeWidth: 3))
           : Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -152,7 +151,7 @@ Widget _topBoardWidget(LeaderPosition position, String name, List totalCorrect,
             width: 40,
             child: Center(
                 child: Text((index + 1).toString(),
-                    style: TextStyle(fontSize: 40))),
+                    style: const TextStyle(fontSize: 40))),
           ),
         const SizedBox(width: 10),
         Expanded(
@@ -160,7 +159,7 @@ Widget _topBoardWidget(LeaderPosition position, String name, List totalCorrect,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(name, style: TextStyle(fontSize: 16)),
+              Text(name, style: const TextStyle(fontSize: 16)),
               const SizedBox(height: 5),
               Text(
                 '${totalCorrect.where((e) => e == true).length} / ${myquestions.length} Correct',
@@ -170,15 +169,15 @@ Widget _topBoardWidget(LeaderPosition position, String name, List totalCorrect,
           ),
         ),
         if (isMe)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Tooltip(
               message: 'This is me!',
               child: Icon(Icons.star, color: Colors.yellowAccent),
             ),
           ),
         if (position != LeaderPosition.other)
-          Text((index + 1).toString(), style: TextStyle(fontSize: 40)),
+          Text((index + 1).toString(), style: const TextStyle(fontSize: 40)),
       ],
     ),
   );
