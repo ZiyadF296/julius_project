@@ -81,12 +81,6 @@ List<Question> myquestions = [
     value: 1500,
   ),
   Question(
-    title: 'What does Portia do to prove she\'s strong?',
-    answer: 'She harms herself',
-    options: ['She harms herself', 'She tries to pick a fight'],
-    value: 1500,
-  ),
-  Question(
     title: 'Who contacts a soothsayer?',
     answer: 'Portia',
     options: ['Lucius', 'Portia'],
